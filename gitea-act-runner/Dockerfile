@@ -1,18 +1,17 @@
 FROM gitea/act_runner:nightly
 
 # Install dependencies
-RUN apk update && \
+RUN cp /etc/resolv.conf /tmp/resolv.conf && \
+    apk update && \
     apk add --no-cache \
     python3 \
     py3-pip \
     nodejs \
     npm \
-    docker \
     curl \
     bash \
-    git
-
-ENV PATH="/usr/local/go/bin:${PATH}"
+    git && \
+    mv /tmp/resolv.conf /etc/resolv.conf
 
 # Clean up
 RUN rm -rf /var/cache/apk/*
@@ -21,5 +20,3 @@ RUN rm -rf /var/cache/apk/*
 RUN python3 --version && \
     node --version && \
     docker --version
-
-ENTRYPOINT ["/sbin/tini -- run.sh"]
