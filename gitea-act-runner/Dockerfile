@@ -1,4 +1,4 @@
-FROM gitea/act_runner:latest
+FROM gitea/act_runner:nightly
 
 # Install dependencies
 RUN apk update && \
@@ -22,4 +22,4 @@ RUN python3 --version && \
     node --version && \
     docker --version
 
-CMD ["act_runner"]
+ENTRYPOINT ["/sbin/tini -- run.sh"]
